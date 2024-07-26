@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<br>
+<br>
+<div class="card shadow">
+    <div class="card-header">
+        <h4>Добавить сотрудника</h4>
+    </div>
+    <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success" type="submit">Подтвердить</button>
+        </form>
+    </div>
+</div>
+{% endblock main %}
