@@ -1,5 +1,5 @@
 from django import forms
-from .models import Employer, Commission
+from .models import Employer, Commission, Exam
 
 
 class EmployerForm(forms.ModelForm):
@@ -43,6 +43,23 @@ class CommissionForm(forms.ModelForm):
                 'class': 'form-control'
             }),
             'commission_type': forms.Select(attrs={
+                'class': 'form-control'
+            })
+        }
+
+
+class ExamForm(forms.ModelForm):
+    class Meta:
+        model = Exam
+        fields = ['type', 'date', 'plant']
+        widgets = {
+            'type': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'date': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'plant': forms.Select(attrs={
                 'class': 'form-control'
             })
         }

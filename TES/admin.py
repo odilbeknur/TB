@@ -30,7 +30,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Exam)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'type', 'date']
+    list_display = ['id', 'type', 'date', 'plant']
 
 
 @admin.register(UserRole)

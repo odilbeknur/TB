@@ -69,6 +69,7 @@ class Employer(models.Model):
 class Exam(models.Model):
     type = models.CharField(max_length=255, verbose_name='Тип экзамена')
     date = models.DateField(default=None, blank=True, null=True, verbose_name='Дата')
+    plant = models.ForeignKey(Plants, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Станция')
 
     def __str__(self):
         return self.type

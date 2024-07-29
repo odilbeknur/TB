@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Plants, Commission, Employer
-from .forms import EmployerForm, CommissionForm
+from .models import Plants, Commission, Employer, Exam
+from .forms import EmployerForm, CommissionForm, ExamForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
@@ -49,21 +49,40 @@ def employer_create(request):
 
 
 def commission_create(request):
-    print('1')
     if request.method == 'POST':
-        print('2')
         form = CommissionForm(request.POST, request.FILES)
         if form.is_valid():
-            print('3')
             commission = form.save()
             commission.save()
             return redirect('commission')
     else:
-        print('4')
         form = CommissionForm()
         context = {
             'form': form,
             'title': 'Добавить Коммиссию'
         }
-        print('5')
         return render(request, 'TES/commission_form.html', context)
+
+
+def exam_view(request):
+    exams = Exam.objects.all()
+    context = {
+        'exams': exams
+    }
+    return render(request, 'TES/index.html', context)
+
+
+def exam_create(request):
+    if request.method == 'POST':
+        form = ExamForm(request.POST, request.FILES)
+        if form.is_valid():
+            exam = form.save()
+            exam.save()
+            return redirect('index')
+    else:
+        form = ExamForm()
+        context = {
+            'form': form,
+            'title': 'Добавить экзамен'
+        }
+        return render(request, 'TES/index.html', context)
