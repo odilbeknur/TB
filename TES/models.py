@@ -56,7 +56,7 @@ class Employer(models.Model):
     plant = models.ForeignKey(Plants, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Станция')
 
     def get_absolute_url(self):
-        return reverse('employer', kwargs={'pk': self.pk})
+        return reverse('employer_detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.name

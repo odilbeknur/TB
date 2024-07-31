@@ -1,5 +1,7 @@
 from django import forms
 from .models import Employer, Commission, Exam
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
 class EmployerForm(forms.ModelForm):
@@ -63,3 +65,12 @@ class ExamForm(forms.ModelForm):
                 'class': 'form-control'
             })
         }
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control'
+    })),
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control'
+    })),
