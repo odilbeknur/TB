@@ -1,10 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block main %}
+<br>
+<br>
+<div class="row shadow">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Sortable Table</h4>
+                <div class="card-header-action">
+                    <form>
+                        <div class="input-group">
+                            {% if request.user.is_authenticated %}
+                            <div class="card-header-action">
+                                <a href="{% url 'score_create' %}" class="btn btn-danger btn-icon icon-right">Add score</a>
+                            </div>
+                            {% endif %}
+                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="sortable-table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                            <th>Exam</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for score in scores %}
+                        <tr>
+                            <td>{{ score.name }}</td>
+                            <td>{{ score.score }}</td>
+                            <td>{{ score.exam }}</td>
+                            {% for employer in employers %}
+                            {% for commission in commissions %}
+                            {% if employer.commission == commission %}
+                            <td><a href="{% url 'employer_detail' employer.pk %}" class="btn btn-secondary">Подробнее</a></td>
+                            {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

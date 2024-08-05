@@ -7,7 +7,7 @@
 <div class="col-12 col-sm-12 col-lg-5">
     <div class="card profile-widget">
         <div class="profile-widget-header">
-            <img alt="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr0Yh96tCeChoOoEuKYUaAd8xbcibFu8YSzQ&s" class="rounded-circle profile-widget-picture">
+            <img alt="image" src="{{ employer.image.url }}" class="rounded-circle profile-widget-picture">
             <div class="profile-widget-items">
                 <div class="profile-widget-item">
                     <div class="profile-widget-item-label">Level</div>
@@ -30,28 +30,28 @@
                     {{ employer.position }}
                 </div>
             </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat.</p>
+            <p>{{ employer.description }}</p>
         </div>
     </div>
     <div class="card mt-4">
         <div class="card-header">
-            <h4>Authors</h4>
+            <h4>Authors {{employer.commission}} -- {{ commission}}</h4>
         </div>
         <div class="card-body pb-0">
+            {% for commission in commissions %}
+            {% if employer.commission == commission %}
             <div class="row">
                 <div class="col-6 col-sm-3 col-lg-3 mb-4 mb-md-0">
                     <div class="avatar-item">
-                        <img alt="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr0Yh96tCeChoOoEuKYUaAd8xbcibFu8YSzQ&s" class="img-fluid" data-toggle="tooltip"
-                             title="Syahdan Ubaidillah">
-                        <a href="{% url 'commission_detail' object.pk %}" class="btn">
+                        <img alt="image" src="{{ commission.image.url }}" class="img-fluid" data-toggle="tooltip">
+                        <a href="{% url 'commission_detail' commission.pk %}" class="btn">
                             <i class="far fa-user"></i>
                         </a>
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Plants, Commission, Employer, Exam
-from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm
+from .models import Plants, Commission, Employer, Exam, User, Score, Files
+from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm, ScoreForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
@@ -59,6 +59,32 @@ def employer_create(request):
         return render(request, 'TES/employer_form.html', context)
 
 
+def exam_view(request):
+    exams = Exam.objects.all()
+    employers = Employer.objects.all()
+    context = {
+        'exams': exams,
+        'employers': employers
+    }
+    return render(request, 'TES/exam.html', context)
+
+
+def exam_create(request):
+    if request.method == 'POST':
+        form = ExamForm(request.POST, request.FILES)
+        if form.is_valid():
+            exam = form.save()
+            exam.save()
+            return redirect('exam')
+    else:
+        form = ExamForm()
+        context = {
+            'form': form,
+            'title': 'Добавить экзамен'
+        }
+        return render(request, 'TES/exam_form.html', context)
+
+
 def commission_create(request):
     if request.method == 'POST':
         form = CommissionForm(request.POST, request.FILES)
@@ -73,30 +99,6 @@ def commission_create(request):
             'title': 'Добавить Коммиссию'
         }
         return render(request, 'TES/commission_form.html', context)
-
-
-def exam_view(request):
-    exams = Exam.objects.all()
-    context = {
-        'exams': exams
-    }
-    return render(request, 'TES/index.html', context)
-
-
-def exam_create(request):
-    if request.method == 'POST':
-        form = ExamForm(request.POST, request.FILES)
-        if form.is_valid():
-            exam = form.save()
-            exam.save()
-            return redirect('index')
-    else:
-        form = ExamForm()
-        context = {
-            'form': form,
-            'title': 'Добавить экзамен'
-        }
-        return render(request, 'TES/index.html', context)
 
 
 def user_login(request):
@@ -153,11 +155,48 @@ def plants_detail(request, pk):
     }
     return render(request, 'TES/plant_detail.html', context)
 
+
+def commission_detail(request, pk):
+    commission = get_object_or_404(Commission, id=pk)
+    employers = Employer.objects.filter(commission=commission)
+    files = Files.objects.all()
+    context = {
+        'employers': employers,
+        'commission': commission,
+        'files': files
+    }
+    return render(request, 'TES/commission_detail.html', context)
+
+
+def employer_detail(request, pk):
+    employer = get_object_or_404(Employer, id=pk)
+    print('employer:    ', employer)
+    commissions = Commission.objects.filter(employer=employer)
+    print('commission.objects.filter(user_name=employer):         ', commissions)
+
+    print("commissions.pk:    ", [i.pk for i in commissions])
+
+    context = {
+        'commissions': commissions,
+        'employer': employer
+    }
+    print(commissions)
+    return render(request, 'TES/employer_detail.html', context)
+
+
+def exam_detail(request, pk):
+    exam = get_object_or_404(Exam, id=pk)
+    employers = Employer.objects.filter(exam_id=exam.id)
+    scores = Score.objects.all()
+    context = {
+        'exam': exam,
+        'employers': employers,
+        'scores': scores
+    }
+    return render(request, 'TES/exam_detail.html', context)
+
+
 # поиск
-# калакольчик
-# описание
-# аватарка
-# учасники
 # календарь
-# профиль
 # визуал
+# файл

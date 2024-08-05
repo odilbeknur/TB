@@ -15,17 +15,17 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Plants)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name']
+    list_display = ['id', 'name', 'description']
 
 
 @admin.register(Employer)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'level', 'position', 'pos_duration', 'enter', 'plant']
+    list_display = ['id', 'name', 'level', 'position', 'pos_duration', 'enter', 'plant', 'description', 'commission']
 
 
 @admin.register(Commission)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user_name', 'lvl', 'group']
+    list_display = ['id', 'user_name', 'lvl', 'group', 'description']
 
 
 @admin.register(Exam)
@@ -40,7 +40,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Files)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'files', 'commission']
+    list_display = ['id', 'files']
 
 
 @admin.register(CommissionType)
@@ -50,4 +50,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Score)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'score']
+    list_display = ['id', 'name', 'score', 'exam']

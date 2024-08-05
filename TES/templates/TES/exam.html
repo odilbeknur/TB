@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<br>
+<br>
+<div class="row shadow">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Sortable Table</h4>
+                <div class="card-header-action">
+                    <form>
+                        <div class="input-group">
+                            {% if request.user.is_authenticated %}
+                            <div class="card-header-action">
+                                <a href="{% url 'exam_create' %}" class="btn btn-danger btn-icon icon-right">Add exam</a>
+                            </div>
+                            {% endif %}
+                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="sortable-table">
+                        <thead>
+                        <tr>
+                            <th>Exam</th>
+                            <th>Plant</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for exam in exams %}
+                        <tr>
+                            <td>{{ exam.type }}</td>
+                            <td>{{ exam.plant }}</td>
+                            <td>{{ exam.date }}</td>
+                            {% for employer in employers %}
+                            {% if employer.exam == exam %}
+                            <td><a href="{% url 'exam_detail' employer.pk %}" class="btn btn-secondary">Подробнее</a></td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

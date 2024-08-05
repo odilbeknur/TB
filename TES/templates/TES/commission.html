@@ -29,9 +29,6 @@
                     <table class="table table-striped" id="sortable-table">
                         <thead>
                         <tr>
-                            <th class="text-center">
-                                <i class="fas fa-th"></i>
-                            </th>
                             <th>Name</th>
                             <th>Level</th>
                             <th>Group</th>
@@ -42,11 +39,6 @@
                         <tbody>
                         {% for commission in commissions %}
                         <tr>
-                            <td>
-                                <div class="sort-handler">
-                                    <i class="fas fa-th"></i>
-                                </div>
-                            </td>
                             <td>{{ commission.user_name }}</td>
                             <td>{{ commission.lvl }}</td>
                             <td>{{ commission.group }}</td>
