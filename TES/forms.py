@@ -88,10 +88,29 @@ class LoginForm(AuthenticationForm):
     }))
 
 
+class RegistrationForm(UserCreationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control'
+    }))
+    role = forms.Select(attrs={
+        'class': 'form-control'
+    })
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control'
+    }))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control'
+    }))
+
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']
+
+
 class ScoreForm(forms.ModelForm):
     class Meta:
         model = Score
-        fields = ['name', 'score', 'exam']
+        fields = ['name', 'score', 'exam', 'status']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control'
@@ -101,5 +120,12 @@ class ScoreForm(forms.ModelForm):
             }),
             'exam': forms.Select(attrs={
                 'class': 'form-control'
+            }),
+            'status': forms.Select(attrs={
+                'class': 'form-control'
             })
         }
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField()

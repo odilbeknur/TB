@@ -2005,7 +2005,6 @@ tr:first-child > td > .fc-day-grid-event {
 }
 .wizard-steps .wizard-step:before {
   counter-increment: wizard-counter;
-  content: counter(wizard-counter);
   position: absolute;
   bottom: -40px;
   left: 50%;

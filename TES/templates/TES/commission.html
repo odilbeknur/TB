@@ -7,19 +7,15 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Sortable Table</h4>
+                <h4>Все коммиссии</h4>
                 <div class="card-header-action">
                     <form>
                         <div class="input-group">
                             {% if request.user.is_authenticated %}
                             <div class="card-header-form">
-                                <a href="{% url 'commission_create' %}" class="btn btn-danger btn-icon icon-right">Add commission</a>
+                                <a href="{% url 'commission_create' %}" class="btn btn-danger btn-icon icon-right">Добавить коммиссию</a>
                             </div>
                             {% endif %}
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -29,11 +25,11 @@
                     <table class="table table-striped" id="sortable-table">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Level</th>
-                            <th>Group</th>
-                            <th>Type of commission</th>
-                            <th>Action</th>
+                            <th>Название</th>
+                            <th>Уровень</th>
+                            <th>Группа</th>
+                            <th>Тип коммиссии</th>
+                            <th>Подробнее</th>
                         </tr>
                         </thead>
                         <tbody>

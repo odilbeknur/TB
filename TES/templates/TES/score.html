@@ -16,10 +16,6 @@
                                 <a href="{% url 'score_create' %}" class="btn btn-danger btn-icon icon-right">Add score</a>
                             </div>
                             {% endif %}
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -39,7 +35,7 @@
                         {% for score in scores %}
                         <tr>
                             <td>{{ score.name }}</td>
-                            <td>{{ score.score }}</td>
+                            <td class="badge badge-success">{{ score.score }}</td>
                             <td>{{ score.exam }}</td>
                             {% for employer in employers %}
                             {% for commission in commissions %}

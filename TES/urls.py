@@ -10,6 +10,7 @@ urlpatterns = [
     path('create_commission/', commission_create, name='commission_create'),
     path('create_exam/', exam_create, name='exam_create'),
     path('login/', user_login, name='login'),
+    path('user_create/', user_create, name='user_create'),
     path('logout/', user_logout, name='logout'),
     path('auth/', login_form, name='auth'),
     path('com_detail<int:pk>/', commission_detail, name='commission_detail'),

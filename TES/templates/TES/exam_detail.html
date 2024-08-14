@@ -7,19 +7,8 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Sortable Table</h4>
-                <div class="card-header-action">
-                    <form>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <h4>Результаты экзаменов</h4>
             </div>
-
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped" id="sortable-table">
@@ -29,13 +18,22 @@
                         {% if score.exam == exam %}
 
                         <tr>
-                            <td>{{ employer.name }}</td>
+                            <td><img alt="image" src="https://avatars.mds.yandex.net/i?id=c96308cd89772428e8cee177ad918db56fea3fd4-10471469-images-thumbs&ref=rim&n=33&w=200&h=200" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian"></i>
+                                {{ employer.name }}</td>
                             <td>{{ employer.commission }}</td>
                             <td>{{ employer.plant }}</td>
-                            <td>{{ employer.exam }}</td>
-
-                            <td>{{ score.score }}</td>
-
+                            {% if exam.type == 'Мед' %}
+                            <td><i class="fa fa-plus-square" aria-hidden="true"></i> {{ exam.type }}</td>
+                            {% elif exam.type == 'Пожарка' %}
+                            <td><i class="fa fa-fire" aria-hidden="true"></i> {{ exam.type }}</td>
+                            {% else %}
+                            <td><i class="fa fa-bolt" aria-hidden="true"></i> {{ exam.type }}</td>
+                            {% endif %}
+                            {% if score.score >= 3 and score.score < 6 %}
+                            <td><div class="badge badge-success">{{ score.score }}</div></td>
+                            {% elif score.score > 0 and score.score <= 2 %}
+                            <td><div class="badge badge-danger">{{ score.score }}</div></td>
+                            {% endif %}
                         </tr>
                         {% endif %}
                         {% endfor %}
@@ -44,11 +42,11 @@
                         </tbody>
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Commission</th>
-                            <th>Plant</th>
-                            <th>Exam</th>
-                            <th>Score</th>
+                            <th>Имя</th>
+                            <th>Коммиссия</th>
+                            <th>Станция</th>
+                            <th>Экзамен</th>
+                            <th>Результат</th>
                         </tr>
                         </thead>
                     </table>

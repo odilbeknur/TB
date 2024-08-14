@@ -3,15 +3,11 @@ from django.urls import reverse
 
 
 # Create your models here.
-class Category(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название категории')
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+STATUSES = (
+        (u'pass', u'Прошел'),
+        (u'fail', u'Не прошел'),
+        (u'process', u'В процессе'),
+    )
 
 
 class UserRole(models.Model):
@@ -28,6 +24,7 @@ class UserRole(models.Model):
 class User(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя пользователя')
     role = models.ManyToManyField(UserRole, related_name='users', verbose_name='Роль')
+    password = models.CharField(max_length=255, default='TES123456789', verbose_name='Пароль')
 
     def get_image(self):
         pass
@@ -136,6 +133,7 @@ class Score(models.Model):
     name = models.ForeignKey(Employer, on_delete=models.CASCADE, blank=True, null=True, verbose_name='ФИО')
     score = models.FloatField(default=0)
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Тип экзамена', related_name='экзамен')
+    status = models.CharField(choices=STATUSES, max_length=255, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Оценка'

@@ -59,10 +59,13 @@
                         <a href="#">View All <i class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
-                </li>
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="https://avatars.mds.yandex.net/i?id=c833930458415c951ebf0668648870289761840f-5234386-images-thumbs&n=13" class="rounded-circle mr-1">
+                        {% if request.user.is_authenticated %}
+                        <img alt="image"
+                             src="https://avatars.mds.yandex.net/i?id=c833930458415c951ebf0668648870289761840f-5234386-images-thumbs&n=13"
+                             class="rounded-circle mr-1">
+                        {% endif %}
                         <div class="d-sm-none d-lg-inline-block">Меню</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -82,40 +85,81 @@
         <!-- Side Bar -->
         <div class="main-sidebar sidebar-style-2">
             <aside id="sidebar-wrapper">
-                <div class="sidebar-brand">
-                    <a href="{% url 'index' %}">Stisla</a>
-                </div>
-                <div class="sidebar-brand sidebar-brand-sm">
-                    <a href="index.html">St</a>
+                <div class="w-100 mb-4 d-flex">
+                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="/">
+                        <img src="/media/images/logo.png" style="max-width: 50px;" alt="">
+                    </a>
                 </div>
                 <ul class="sidebar-menu">
-                    <li>
+                    {% if request.path == '/plants/' %}
+                    <li class="active">
                         <a class="nav-link" href="{% url 'plants' %}">
-                            <i class="far fa-square"></i>
+                            <i class="fa fa-industry"></i>
                             <span>Станции</span>
                         </a>
                     </li>
-                    <li>
+                    {% else %}
+                    <li class="">
+                        <a class="nav-link" href="{% url 'plants' %}">
+                            <i class="fa fa-industry"></i>
+                            <span>Станции</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if request.path == '/commission/' %}
+                    <li class="active">
                         <a class="nav-link" href="{% url 'commission' %}">
-                            <i class="far fa-square"></i>
+                            <i class="fa fa-users"></i>
                             <span>Комиссия</span>
                         </a>
                     </li>
+                    {% else %}
                     <li>
+                        <a class="nav-link" href="{% url 'commission' %}">
+                            <i class="fa fa-users"></i>
+                            <span>Комиссия</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if request.path == '/employer/' %}
+                    <li class="active">
                         <a class="nav-link" href="{% url 'employer' %}">
-                            <i class="far fa-square"></i>
+                            <i class="fa fa-male"></i>
                             <span>Сотрудники</span>
                         </a>
                     </li>
+                    {% else %}
                     <li>
+                        <a class="nav-link" href="{% url 'employer' %}">
+                            <i class="fa fa-male"></i>
+                            <span>Сотрудники</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if request.path == '/exam/' %}
+                    <li class="active">
                         <a class="nav-link" href="{% url 'exam' %}">
-                            <i class="far fa-square"></i>
+                            <i class="fa fa-book"></i>
                             <span>Экзамены</span>
                         </a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a class="nav-link" href="{% url 'exam' %}">
+                            <i class="fa fa-book"></i>
+                            <span>Экзамены</span>
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
             </aside>
         </div>
+
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
 
         <!-- Main Content -->
         <div class="main-content">

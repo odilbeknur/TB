@@ -10,15 +10,15 @@
             <img alt="image" src="{{ employer.image.url }}" class="rounded-circle profile-widget-picture">
             <div class="profile-widget-items">
                 <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Level</div>
+                    <div class="profile-widget-item-label">Уровень</div>
                     <div class="profile-widget-item-value">{{ employer.level }}</div>
                 </div>
                 <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Enter</div>
+                    <div class="profile-widget-item-label">Дата вступления</div>
                     <div class="profile-widget-item-value">{{ employer.enter }}</div>
                 </div>
                 <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Plant</div>
+                    <div class="profile-widget-item-label">Станция</div>
                     <div class="profile-widget-item-value">{{ employer.plant }}</div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
     </div>
     <div class="card mt-4">
         <div class="card-header">
-            <h4>Authors {{employer.commission}} -- {{ commission}}</h4>
+            <h4>Коммиссия: {{ employer.commission }} -- {{ commission }}</h4>
         </div>
         <div class="card-body pb-0">
             {% for commission in commissions %}

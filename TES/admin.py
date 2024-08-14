@@ -1,11 +1,8 @@
 from django.contrib import admin
-from .models import Category, User, Plants, Employer, Commission, Exam, UserRole, Files, CommissionType, Score
+from .models import User, Plants, Employer, Commission, Exam, UserRole, Files, CommissionType, Score
 
 
 # Register your models here.
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title']
 
 
 @admin.register(User)
@@ -50,4 +47,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Score)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'score', 'exam']
+    list_display = ['id', 'name', 'score', 'exam', 'status']

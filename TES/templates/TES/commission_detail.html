@@ -4,21 +4,22 @@
 {% block main %}
 <br>
 <br>
-<div class="col-12 col-sm-12 col-lg-5">
+<div class="row">
+    <div class="col-12 col-sm-12 col-lg-6">
     <div class="card profile-widget">
         <div class="profile-widget-header">
             <img alt="image" src="{{ commission.image.url }}" class="rounded-circle profile-widget-picture">
             <div class="profile-widget-items">
                 <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Level</div>
+                    <div class="profile-widget-item-label">Уровень</div>
                     <div class="profile-widget-item-value">{{ commission.lvl }}</div>
                 </div>
                 <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Group</div>
+                    <div class="profile-widget-item-label">Группа</div>
                     <div class="profile-widget-item-value">{{ commission.group }}</div>
                 </div>
                 <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Type of commission</div>
+                    <div class="profile-widget-item-label">Тип коммиссии</div>
                     <div class="profile-widget-item-value">{{ commission.commission_type }}</div>
                 </div>
             </div>
@@ -27,7 +28,7 @@
             <div class="profile-widget-name">{{ commission.user_name }}
                 <div class="text-muted d-inline font-weight-normal">
                     <div class="slash"></div>
-                    Leader
+                    Лидер коммиссии
                 </div>
             </div>
             <p>{{ commission.description }}</p>
@@ -35,7 +36,7 @@
     </div>
     <div class="card mt-4">
         <div class="card-header">
-            <h4>Authors</h4>
+            <h4>Сотрудники коммиссии</h4>
         </div>
         <div class="card-body pb-0">
             <div class="row">
@@ -54,14 +55,17 @@
             </div>
         </div>
     </div>
+
+</div>
+    <div class="col-12 col-sm-12 col-lg-6">
     <div class="card-body">
-        <div class="owl-carousel owl-theme slider" id="slider1">
-            {% for commission in commissions %}
-            <div><img alt="image" src="{{ commission.files.url }}"></div>
-            {% endfor %}
-        </div>
+        {% for file in files %}
+        <img alt="image" src="{{ commission.image.url }}" class="">
+        {% endfor %}
     </div>
 </div>
+</div>
+
 {% endblock main %}
 
 

@@ -7,19 +7,15 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h4>Sortable Table</h4>
+                <h4>Все сотрудники</h4>
                 <div class="card-header-action">
                     <form>
                         <div class="input-group">
                             {% if request.user.is_authenticated %}
                             <div class="card-header-action">
-                                <a href="{% url 'employer_create' %}" class="btn btn-danger btn-icon icon-right">Add employer</a>
+                                <a href="{% url 'employer_create' %}" class="btn btn-danger btn-icon icon-right">Добавить сотрудника</a>
                             </div>
                             {% endif %}
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -29,17 +25,18 @@
                     <table class="table table-striped" id="sortable-table">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Level</th>
-                            <th>Position</th>
-                            <th>Plant</th>
-                            <th>Action</th>
+                            <th>Имя</th>
+                            <th>Уровень</th>
+                            <th>Должность</th>
+                            <th>Станция</th>
+                            <th>Подробнее</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for employer in employers %}
                         <tr>
-                            <td>{{ employer.name }}</td>
+                            <td><img alt="image" src="https://avatars.mds.yandex.net/i?id=c96308cd89772428e8cee177ad918db56fea3fd4-10471469-images-thumbs&ref=rim&n=33&w=200&h=200" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian"></i>
+                                {{ employer.name }}</td>
                             <td>{{ employer.level }}</td>
                             <td>{{ employer.position }}</td>
                             <td>{{ employer.plant }}</td>

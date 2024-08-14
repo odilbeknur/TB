@@ -1,12 +1,24 @@
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Plants, Commission, Employer, Exam, User, Score, Files
-from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm, ScoreForm
+from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm, ScoreForm, RegistrationForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
 
 
 def index(request):
-    return render(request, 'TES/index.html')
+    total_employees = Employer.objects.count()
+    passed_exams = Score.objects.filter(status='pass').count()
+    in_progress_exams = Score.objects.filter(status=None).count()
+    failed_exams = Score.objects.filter(status='fail').count()
+    print(passed_exams)
+    context = {
+        'total_employees': total_employees,
+        'passed_exams': passed_exams,
+        'in_progress_exams': in_progress_exams,
+        'failed_exams': failed_exams
+    }
+    return render(request, 'TES/index.html', context)
 
 
 def plants_view(request):
@@ -18,7 +30,6 @@ def plants_view(request):
         print('Success')
     else:
         plant_id = 0
-        print('Error')
     context = {
         'plants': plants,
         'employers': employers,
@@ -106,13 +117,42 @@ def user_login(request):
         form = LoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
+            print('USER: ', user)
+
             if user:
                 login(request, user)
-
                 return redirect('index')
             else:
-
                 return redirect('index')
+        else:
+            print(form.errors.as_data())
+            return redirect('index')
+    else:
+        form = LoginForm()
+
+    context = {
+        'form': form,
+        'title': 'Авторизация'
+    }
+    return render(request, 'TES/user_form.html', context)
+
+
+def user_create(request):
+    if request.method == 'POST':
+        form = RegistrationForm(data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            return redirect('index')
+        else:
+            return redirect('index')
+    else:
+        form = RegistrationForm()
+
+    context = {
+        'form': form,
+        'title': 'Создание пользователя'
+    }
+    return render(request, 'TES/user_form.html', context)
 
 
 def user_logout(request):
@@ -159,7 +199,7 @@ def plants_detail(request, pk):
 def commission_detail(request, pk):
     commission = get_object_or_404(Commission, id=pk)
     employers = Employer.objects.filter(commission=commission)
-    files = Files.objects.all()
+    files = Files.objects.filter(commission=commission)
     context = {
         'employers': employers,
         'commission': commission,
@@ -195,8 +235,6 @@ def exam_detail(request, pk):
     }
     return render(request, 'TES/exam_detail.html', context)
 
-
 # поиск
 # календарь
 # визуал
-# файл

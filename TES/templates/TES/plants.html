@@ -1,30 +1,25 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="main-content">
+
     <section class="section">
         <div class="section-body">
             <div class="row">
                 {% for plant in plants %}
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
-                    <article class="article">
-                        <div class="article-header">
-                            <div class="article-image" data-background="{{ plant.image.url }}"></div>
-                            <div class="article-title">
-                                <h2><a href="#">{{ plant.name }}</a></h2>
-                            </div>
-                        </div>
-                        <div class="article-details">
-                            <p>{{ plant.description }}</p>
-                            <div class="article-cta">
-                                <a href="{% url 'plant_detail' plant.pk %}" class="btn btn-primary">Подробнее</a>
-                            </div>
-                        </div>
-                    </article>
+                <div class="col-12 mb-4">
+                <div class="hero text-white hero-bg-image hero-bg-parallax" data-background="{{ plant.image.url }}">
+                  <div class="hero-inner">
+                    <h2>{{ plant.name }}</h2>
+                    <p class="lead">{{ plant.description }}</p>
+                    <div class="mt-4">
+                      <a href="{% url 'plant_detail' plant.pk %}" class="btn btn-outline-white btn-lg btn-icon icon-left">Подробнее</a>
+                    </div>
+                  </div>
                 </div>
+              </div>
                 {% endfor %}
             </div>
         </div>
     </section>
-</div>
+
 {% endblock main %}
