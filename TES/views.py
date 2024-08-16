@@ -256,5 +256,6 @@ def exam_detail(request, pk):
     return render(request, 'TES/exam_detail.html', context)
 
 
-# календарь
-# визуал
+# индекс
+# ком детаил
+# фильтр
