@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<br>
-<br>
 <div class="row shadow">
     <div class="col-12">
         <div class="card">
@@ -43,13 +41,42 @@
                         <thead>
                         <tr>
                             <th>Имя</th>
-                            <th>Коммиссия</th>
+                            <th>Комиссия</th>
                             <th>Станция</th>
                             <th>Экзамен</th>
                             <th>Результат</th>
                         </tr>
                         </thead>
                     </table>
+                    <div class="card">
+                    <div class="card-body">
+                        <div class="buttons">
+                                <ul class="pagination justify-content-center">
+                                    {% if employers.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ employers.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% for page_number in employers.paginator.page_range %}
+                                    {% if page_number == employers.number %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if employers.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ employers.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

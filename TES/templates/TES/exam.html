@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<br>
-<br>
 <div class="row shadow">
     <div class="col-12">
         <div class="card">
@@ -13,9 +11,19 @@
                         <div class="input-group">
                             {% if request.user.is_authenticated %}
                             <div class="card-header-action">
-                                <a href="{% url 'exam_create' %}" class="btn btn-danger btn-icon icon-right">Добавить экзамен</a>
+                                <a href="{% url 'exam_create' %}" class="btn btn-danger btn-icon icon-right">Добавить
+                                    экзамен</a>
                             </div>
                             {% endif %}
+                            <div class="dropdown">
+                                <button class="btn selectpicker dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Сортировать по...
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item p-3" href="#">Action</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -45,13 +53,45 @@
                             <td>{{ exam.date }}</td>
                             {% for employer in employers %}
                             {% if employer.exam == exam %}
-                            <td><a href="{% url 'exam_detail' employer.pk %}" class="btn btn-secondary">Подробнее</a></td>
+                            <td><a href="{% url 'exam_detail' employer.pk %}" class="btn btn-primary">Подробнее</a>
+                            </td>
                             {% endif %}
                             {% endfor %}
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="buttons">
+                                <ul class="pagination justify-content-center">
+                                    {% if exams.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ exams.previous_page_number }}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% for page_number in exams.paginator.page_range %}
+                                    {% if page_number == exams.number %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if exams.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ exams.next_page_number }}"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

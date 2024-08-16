@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Plants, Commission, Employer, Exam, User, Score, Files
 from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm, ScoreForm, RegistrationForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 def index(request):
@@ -40,16 +40,26 @@ def plants_view(request):
 
 def commission_view(request):
     commissions = Commission.objects.all()
+
+    paginator = Paginator(commissions, 8)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'commissions': commissions
+        'commissions': page_obj
     }
     return render(request, 'TES/commission.html', context)
 
 
 def employer_view(request):
     employers = Employer.objects.all()
+
+    paginator = Paginator(employers, 8)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'employers': employers
+        'employers': page_obj
     }
     return render(request, 'TES/employers.html', context)
 
@@ -73,8 +83,13 @@ def employer_create(request):
 def exam_view(request):
     exams = Exam.objects.all()
     employers = Employer.objects.all()
+
+    paginator = Paginator(exams, 8)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'exams': exams,
+        'exams': page_obj,
         'employers': employers
     }
     return render(request, 'TES/exam.html', context)
@@ -107,7 +122,7 @@ def commission_create(request):
         form = CommissionForm()
         context = {
             'form': form,
-            'title': 'Добавить Коммиссию'
+            'title': 'Добавить комиссию'
         }
         return render(request, 'TES/commission_form.html', context)
 
@@ -190,8 +205,13 @@ class PlantDetail(DetailView):
 def plants_detail(request, pk):
     plant = get_object_or_404(Plants, id=pk)
     employers = Employer.objects.filter(plant_id=plant.id)
+
+    paginator = Paginator(employers, 8)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'employers': employers,
+        'employers': page_obj,
     }
     return render(request, 'TES/plant_detail.html', context)
 
@@ -210,12 +230,7 @@ def commission_detail(request, pk):
 
 def employer_detail(request, pk):
     employer = get_object_or_404(Employer, id=pk)
-    print('employer:    ', employer)
     commissions = Commission.objects.filter(employer=employer)
-    print('commission.objects.filter(user_name=employer):         ', commissions)
-
-    print("commissions.pk:    ", [i.pk for i in commissions])
-
     context = {
         'commissions': commissions,
         'employer': employer
@@ -228,13 +243,18 @@ def exam_detail(request, pk):
     exam = get_object_or_404(Exam, id=pk)
     employers = Employer.objects.filter(exam_id=exam.id)
     scores = Score.objects.all()
+
+    paginator = Paginator(employers, 8)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'exam': exam,
-        'employers': employers,
+        'employers': page_obj,
         'scores': scores
     }
     return render(request, 'TES/exam_detail.html', context)
 
-# поиск
+
 # календарь
 # визуал

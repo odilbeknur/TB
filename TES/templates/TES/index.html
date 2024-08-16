@@ -3,64 +3,63 @@
 
 
 {% block main %}
-
 <div class="col-lg-12 col-md-6 col-sm-12">
-        <div class="row">
-            <div class="col-12 col-lg-8 offset-lg-2">
-                <div class="wizard-steps">
-                    <div class="wizard-step wizard-step-info">
-                        <div class="wizard-step-icon">
-                            <i class="fas fa-info"></i>
-                        </div>
-                        <span class="step-count">{{ total_employees }}</span>
-                        <div class="wizard-step-label">
-                            Количество сотрудников
-                        </div>
+    <div class="row">
+        <div class="col-12 col-lg-8 offset-lg-2">
+            <div class="wizard-steps">
+                <div class="wizard-step wizard-step-info">
+                    <div class="wizard-step-icon">
+                        <i class="fas fa-info"></i>
                     </div>
-                    <div class="wizard-step wizard-step-success">
-                        <div class="wizard-step-icon">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <span class="step-count">{{ passed_exams }}</span>
-                        <div class="wizard-step-label">
-                            Прошли экзамен
-                        </div>
-                    </div>
-                    <div class="wizard-step wizard-step-warning">
-                            <div class="wizard-step-icon">
-                              <i class="fas fa-stopwatch"></i>
-                            </div>
-                        <span class="step-count">{{ in_progress_exams }}</span>
-                        <div class="wizard-step-label">
-                                Проходят экзамен
-                            </div>
-                          </div>
-                    <div class="wizard-step wizard-step-danger">
-                        <div class="wizard-step-icon">
-                            <i class="fas fa-times"></i>
-                        </div>
-                        <span class="step-count">{{ failed_exams }}</span>
-                        <div class="wizard-step-label">
-                            Не прошли экзамен
-                        </div>
+                    <span class="step-count">{{ total_employees }}</span>
+                    <div class="wizard-step-label">
+                        Количество сотрудников
                     </div>
                 </div>
-            </div>
-        </div>
-    <div class="row shadow">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>Calendar</h4>
-            </div>
-            <div class="card-body">
-                <div class="fc-overflow">
-                    <div id="myEvent"></div>
+                <div class="wizard-step wizard-step-success">
+                    <div class="wizard-step-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="step-count">{{ passed_exams }}</span>
+                    <div class="wizard-step-label">
+                        Прошли экзамен
+                    </div>
+                </div>
+                <div class="wizard-step wizard-step-warning">
+                    <div class="wizard-step-icon">
+                        <i class="fas fa-stopwatch"></i>
+                    </div>
+                    <span class="step-count">{{ in_progress_exams }}</span>
+                    <div class="wizard-step-label">
+                        Проходят экзамен
+                    </div>
+                </div>
+                <div class="wizard-step wizard-step-danger">
+                    <div class="wizard-step-icon">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <span class="step-count">{{ failed_exams }}</span>
+                    <div class="wizard-step-label">
+                        Не прошли экзамен
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="row shadow" style="margin-top: -50px;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Calendar</h4>
+                </div>
+                <div class="card-body">
+                    <div class="fc-overflow">
+                        <div id="myEvent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock main %}

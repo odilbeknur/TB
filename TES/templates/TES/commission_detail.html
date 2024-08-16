@@ -2,68 +2,66 @@
 
 
 {% block main %}
-<br>
-<br>
 <div class="row">
     <div class="col-12 col-sm-12 col-lg-6">
-    <div class="card profile-widget">
-        <div class="profile-widget-header">
-            <img alt="image" src="{{ commission.image.url }}" class="rounded-circle profile-widget-picture">
-            <div class="profile-widget-items">
-                <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Уровень</div>
-                    <div class="profile-widget-item-value">{{ commission.lvl }}</div>
-                </div>
-                <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Группа</div>
-                    <div class="profile-widget-item-value">{{ commission.group }}</div>
-                </div>
-                <div class="profile-widget-item">
-                    <div class="profile-widget-item-label">Тип коммиссии</div>
-                    <div class="profile-widget-item-value">{{ commission.commission_type }}</div>
-                </div>
-            </div>
-        </div>
-        <div class="profile-widget-description pb-0">
-            <div class="profile-widget-name">{{ commission.user_name }}
-                <div class="text-muted d-inline font-weight-normal">
-                    <div class="slash"></div>
-                    Лидер коммиссии
-                </div>
-            </div>
-            <p>{{ commission.description }}</p>
-        </div>
-    </div>
-    <div class="card mt-4">
-        <div class="card-header">
-            <h4>Сотрудники коммиссии</h4>
-        </div>
-        <div class="card-body pb-0">
-            <div class="row">
-                {% for employer in employers %}
-                {% if employer.commission == commission %}
-                <div class="col-6 col-sm-3 col-lg-3 mb-4 mb-md-0">
-                    <div class="avatar-item">
-                        <img alt="image" src="{{ employer.image.url }}" class="img-fluid" data-toggle="tooltip">
-                        <a href="{% url 'employer_detail' employer.pk %}" class="btn">
-                            <i class="far fa-user"></i>
-                        </a>
+        <div class="card profile-widget">
+            <div class="profile-widget-header">
+                <img alt="image" src="{{ commission.image.url }}" class="rounded-circle profile-widget-picture">
+                <div class="profile-widget-items">
+                    <div class="profile-widget-item">
+                        <div class="profile-widget-item-label">Уровень</div>
+                        <div class="profile-widget-item-value">{{ commission.lvl }}</div>
+                    </div>
+                    <div class="profile-widget-item">
+                        <div class="profile-widget-item-label">Группа</div>
+                        <div class="profile-widget-item-value">{{ commission.group }}</div>
+                    </div>
+                    <div class="profile-widget-item">
+                        <div class="profile-widget-item-label">Тип комиссии</div>
+                        <div class="profile-widget-item-value">{{ commission.commission_type }}</div>
                     </div>
                 </div>
-                {% endif %}
-                {% endfor %}
+            </div>
+            <div class="profile-widget-description pb-0">
+                <div class="profile-widget-name">{{ commission.user_name }}
+                    <div class="text-muted d-inline font-weight-normal">
+                        <div class="slash"></div>
+                        Лидер комиссии
+                    </div>
+                </div>
+                <p>{{ commission.description }}</p>
             </div>
         </div>
-    </div>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Сотрудники комиссии</h4>
+            </div>
+            <div class="card-body pb-0">
+                <div class="row">
+                    {% for employer in employers %}
+                    {% if employer.commission == commission %}
+                    <div class="col-6 col-sm-3 col-lg-3 mb-4 mb-md-0">
+                        <div class="avatar-item">
+                            <img alt="image" src="{{ employer.image.url }}" class="img-fluid" data-toggle="tooltip">
+                            <a href="{% url 'employer_detail' employer.pk %}" class="btn">
+                                <i class="far fa-user"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-</div>
-    <div class="col-12 col-sm-12 col-lg-6">
-    <div class="card-body">
-        {% for file in files %}
-        <img alt="image" src="{{ commission.image.url }}" class="">
-        {% endfor %}
     </div>
-</div>
+    <div class="col-12 col-sm-12 col-lg-6">
+        <div class="card-body">
+            {% for file in files %}
+            <img alt="image" src="{{ commission.image.url }}" class="">
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 {% endblock main %}

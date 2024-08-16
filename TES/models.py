@@ -64,14 +64,14 @@ class Exam(models.Model):
 
 
 class CommissionType(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Тип каммиссии')
+    title = models.CharField(max_length=255, verbose_name='Тип комиссии')
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = 'Тип камиссии'
-        verbose_name_plural = 'Типы камиссий'
+        verbose_name = 'Тип комиссии'
+        verbose_name_plural = 'Типы комиссий'
 
 
 class Files(models.Model):
@@ -85,10 +85,10 @@ class Files(models.Model):
 class Commission(models.Model):
     user_name = models.CharField(max_length=255, verbose_name='Название')
     image = models.ImageField(upload_to='images/', blank=True, null=True)
-    lvl = models.CharField(max_length=255, verbose_name='Уровень камиссии')
+    lvl = models.CharField(max_length=255, verbose_name='Уровень комиссии')
     group = models.CharField(max_length=120, verbose_name='Номер группы')
     commission_type = models.ForeignKey(CommissionType, on_delete=models.CASCADE, blank=True, null=True,
-                                        verbose_name='Тип коммиссии')
+                                        verbose_name='Тип комиссии')
     description = models.TextField(default='Описание', verbose_name='Описание')
     files = models.ForeignKey(Files, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Файл')
 
@@ -99,20 +99,20 @@ class Commission(models.Model):
         pass
 
     class Meta:
-        verbose_name = 'Камиссия'
-        verbose_name_plural = 'Камиссии'
+        verbose_name = 'Комиссия'
+        verbose_name_plural = 'Комиссии'
 
 
 class Employer(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name='ФИО')
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', null=True, default='/media/images/emp_def.webp')
     level = models.IntegerField(verbose_name='Разряд')
     position = models.TextField(max_length=255, verbose_name='Должность')
     pos_duration = models.IntegerField(verbose_name='Длительность на должности')
     enter = models.CharField(max_length=255, verbose_name='Период работы(с)')
     plant = models.ForeignKey(Plants, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Станция')
     description = models.TextField(default='Описание', verbose_name='Описание')
-    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Камиссия')
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Комиссия')
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Тип экзамена')
 
     def get_absolute_url(self):
@@ -125,8 +125,8 @@ class Employer(models.Model):
         pass
 
     class Meta:
-        verbose_name = 'Сатрудник'
-        verbose_name_plural = 'Сатрудники'
+        verbose_name = 'Сотрудник'
+        verbose_name_plural = 'Сотрудники'
 
 
 class Score(models.Model):

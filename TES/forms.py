@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 class EmployerForm(forms.ModelForm):
     class Meta:
         model = Employer
-        fields = ['name', 'level', 'position', 'pos_duration', 'enter', 'plant', 'commission', 'description']
+        fields = ['name', 'level', 'position', 'pos_duration', 'enter', 'image', 'plant', 'commission', 'description']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control'
@@ -16,6 +16,9 @@ class EmployerForm(forms.ModelForm):
                 'class': 'form-control'
             }),
             'position': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'image': forms.ClearableFileInput(attrs={
                 'class': 'form-control'
             }),
             'commission': forms.Select(attrs={

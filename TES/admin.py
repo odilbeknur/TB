@@ -17,7 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Employer)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'level', 'position', 'pos_duration', 'enter', 'plant', 'description', 'commission']
+    list_display = ['id', 'name', 'level', 'position', 'image', 'pos_duration', 'enter', 'plant', 'description', 'commission']
 
 
 @admin.register(Commission)
