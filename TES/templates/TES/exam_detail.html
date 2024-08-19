@@ -27,6 +27,7 @@
                             {% else %}
                             <td><i class="fa fa-bolt" aria-hidden="true"></i> {{ exam.type }}</td>
                             {% endif %}
+                            <td>{{ exam.date }}</td>
                             {% if score.score >= 3 and score.score < 6 %}
                             <td><div class="badge badge-success">{{ score.score }}</div></td>
                             {% elif score.score > 0 and score.score <= 2 %}
@@ -44,6 +45,7 @@
                             <th>Комиссия</th>
                             <th>Станция</th>
                             <th>Экзамен</th>
+                            <th>Дата</th>
                             <th>Результат</th>
                         </tr>
                         </thead>

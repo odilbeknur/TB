@@ -82,7 +82,10 @@ def employer_create(request):
 
 def exam_view(request):
     exams = Exam.objects.all()
-    employers = Employer.objects.all()
+    filter_name = request.GET.get('name')
+
+    if filter_name:
+        exams = exams.filter(type=filter_name)
 
     paginator = Paginator(exams, 8)
     page_number = request.GET.get('page', 1)
@@ -90,7 +93,8 @@ def exam_view(request):
 
     context = {
         'exams': page_obj,
-        'employers': employers
+        'employers': Employer.objects.all(),
+        'filter_name': filter_name
     }
     return render(request, 'TES/exam.html', context)
 
@@ -231,9 +235,18 @@ def commission_detail(request, pk):
 def employer_detail(request, pk):
     employer = get_object_or_404(Employer, id=pk)
     commissions = Commission.objects.filter(employer=employer)
+    exams = Exam.objects.filter(employer=employer)
+    scores = Score.objects.all()
+
+    paginator = Paginator(exams, 5)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'commissions': commissions,
-        'employer': employer
+        'employer': employer,
+        'exams': page_obj,
+        'scores': scores
     }
     print(commissions)
     return render(request, 'TES/employer_detail.html', context)

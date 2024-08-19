@@ -15,14 +15,17 @@
                                     экзамен</a>
                             </div>
                             {% endif %}
-                            <div class="dropdown">
-                                <button class="btn selectpicker dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown d-inline">
+                                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton4"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Сортировать по...
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item p-3" href="#">Action</a></li>
-                                </ul>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item p-3" href="?name=Мед{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">Мед</a>
+                                    <a class="dropdown-item p-3" href="?name=Пожарка{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">Пожарка</a>
+                                    <a class="dropdown-item p-3" href="?name=ТБ{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">ТБ</a>
+                                    <a class="dropdown-item p-3" href="{% url 'exam' %}">Все</a>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -75,9 +78,11 @@
                                     {% endif %}
                                     {% for page_number in exams.paginator.page_range %}
                                     {% if page_number == exams.number %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">
+                                        {{ page_number }}</a></li>
                                     {% else %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">
+                                        {{ page_number }}</a></li>
                                     {% endif %}
                                     {% endfor %}
                                     {% if exams.has_next %}
