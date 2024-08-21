@@ -1,4 +1,4 @@
-#!F:\pythonProject1\venv\Scripts\python.exe
+#!C:\Users\HP\Desktop\TB production\TES\venv\Scripts\python.exe
 from ptrace import PtraceError
 from ptrace.debugger import (PtraceDebugger, Application,
                              ProcessExit, NewProcessEvent, ProcessSignal,

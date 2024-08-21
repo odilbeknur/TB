@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="row shadow">
+<div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -27,6 +27,7 @@
                         <tr>
                             <th>Имя</th>
                             <th>Уровень</th>
+                            <th>Отдел</th>
                             <th>Должность</th>
                             <th>Станция</th>
                             <th>Подробнее</th>
@@ -42,6 +43,7 @@
                                 {{ employer.name }}
                             </td>
                             <td>{{ employer.level }}</td>
+                            <td>{{ employer.department }}</td>
                             <td>{{ employer.position }}</td>
                             <td>{{ employer.plant }}</td>
                             <td><a href="{% url 'employer_detail' employer.pk %}"
@@ -52,7 +54,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card">
+                <div class="">
                     <div class="card-body">
                         <div class="buttons">
                                 <ul class="pagination justify-content-center">

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="row shadow">
+<br>
+<div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -25,6 +26,7 @@
                         <tr>
                             <th>Имя</th>
                             <th>Уровень</th>
+                            <th>Отдел</th>
                             <th>Должность</th>
                             <th>Станция</th>
                             <th>Подробнее</th>
@@ -36,6 +38,7 @@
                             <td><img alt="image" src="https://avatars.mds.yandex.net/i?id=c96308cd89772428e8cee177ad918db56fea3fd4-10471469-images-thumbs&ref=rim&n=33&w=200&h=200" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian"></i>
                                 {{ employer.name }}</td>
                             <td>{{ employer.level }}</td>
+                            <td>{{ employer.department }}</td>
                             <td>{{ employer.position }}</td>
                             <td>{{ employer.plant }}</td>
                             <td><a href="{% url 'employer_detail' employer.pk %}" class="btn btn-primary">Подробнее</a></td>
@@ -43,8 +46,8 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <div class="card">
-                    <div class="card-body">
+                    <div class="">
+                    <div class="">
                         <div class="buttons">
                                 <ul class="pagination justify-content-center">
                                     {% if employers.has_previous %}

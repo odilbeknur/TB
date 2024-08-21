@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Все сотрудники</h4>
+                <div class="card-header-action">
+                    <form>
+                        <div class="input-group">
+                            {% if request.user.is_authenticated %}
+                            <div class="card-header-action">
+                                <a href="{% url 'employer_create' %}" class="btn btn-danger btn-icon icon-right">Добавить сотрудника</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="sortable-table">
+                        <thead>
+                        <tr>
+                            <th>Имя</th>
+                            <th>Оценка</th>
+                            <th>Экзамен</th>
+                            <th>Статус</th>
+                            <th>Подробнее</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for employer in passed_exams %}
+                        <tr>
+                            <td><img alt="image" src="https://avatars.mds.yandex.net/i?id=c96308cd89772428e8cee177ad918db56fea3fd4-10471469-images-thumbs&ref=rim&n=33&w=200&h=200" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian"></i>
+                                {{ employer.name }}</td>
+                                {% if employer.score >= 3 and employer.score < 6 %} <td>
+                                    <div class="badge badge-success">{{ employer.score }}</div>
+                                    </td>
+                                    {% elif employer.score > 0 and employer.score <= 2 %} <td>
+                                        <div class="badge badge-danger">{{ employer.score }}</div>
+                                        </td>
+                                        {% endif %}
+                            <td>{{ employer.exam }}</td>
+                            <td><div class="badge badge-success">Прошел</div></td>
+                            <td><a href="{% url 'employer_detail' employer.pk %}" class="btn btn-primary">Подробнее</a></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="">
+                    <div class="">
+                        <div class="buttons">
+                                <ul class="pagination justify-content-center">
+                                    {% if employers.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ employers.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% for page_number in employers.paginator.page_range %}
+                                    {% if page_number == employers.number %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if employers.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ employers.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

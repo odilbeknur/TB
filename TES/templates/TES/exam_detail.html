@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="row shadow">
+<div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -10,16 +10,20 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-striped" id="sortable-table">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Экзамен</th>
+                                <th>Дата</th>
+                                <th>Результат</th>
+                            </tr>
+                            </thead>
                         <tbody>
-                        {% for employer in employers %}
                         {% for score in scores %}
                         {% if score.exam == exam %}
-
                         <tr>
                             <td><img alt="image" src="https://avatars.mds.yandex.net/i?id=c96308cd89772428e8cee177ad918db56fea3fd4-10471469-images-thumbs&ref=rim&n=33&w=200&h=200" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian"></i>
-                                {{ employer.name }}</td>
-                            <td>{{ employer.commission }}</td>
-                            <td>{{ employer.plant }}</td>
+                                {{ score.name }}</td>
                             {% if exam.type == 'Мед' %}
                             <td><i class="fa fa-plus-square" aria-hidden="true"></i> {{ exam.type }}</td>
                             {% elif exam.type == 'Пожарка' %}
@@ -27,7 +31,7 @@
                             {% else %}
                             <td><i class="fa fa-bolt" aria-hidden="true"></i> {{ exam.type }}</td>
                             {% endif %}
-                            <td>{{ exam.date }}</td>
+                            <td>{{ exam.start }}</td>
                             {% if score.score >= 3 and score.score < 6 %}
                             <td><div class="badge badge-success">{{ score.score }}</div></td>
                             {% elif score.score > 0 and score.score <= 2 %}
@@ -36,21 +40,11 @@
                         </tr>
                         {% endif %}
                         {% endfor %}
-                        {% endfor %}
 
                         </tbody>
-                        <thead>
-                        <tr>
-                            <th>Имя</th>
-                            <th>Комиссия</th>
-                            <th>Станция</th>
-                            <th>Экзамен</th>
-                            <th>Дата</th>
-                            <th>Результат</th>
-                        </tr>
-                        </thead>
+                        
                     </table>
-                    <div class="card">
+                    <div class="">
                     <div class="card-body">
                         <div class="buttons">
                                 <ul class="pagination justify-content-center">

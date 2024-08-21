@@ -9,55 +9,57 @@
                 <img alt="image" src="{{ employer.image.url }}" class="rounded-circle profile-widget-picture">
                 <div class="profile-widget-items">
                     <div class="profile-widget-item">
-                        <div class="profile-widget-item-label">Уровень</div>
-                        <div class="profile-widget-item-value">{{ employer.level }}</div>
+                        <div class="profile-widget-item-value">Отдел</div>
+                        <div class="profile-widget-item-label">{{ employer.department }}</div>
                     </div>
                     <div class="profile-widget-item">
-                        <div class="profile-widget-item-label">Дата вступления</div>
-                        <div class="profile-widget-item-value">{{ employer.enter }}</div>
+                        <div class="profile-widget-item-value">Должность</div>
+                        <div class="profile-widget-item-label">{{ employer.position }} <br> ({{ employer.pos_duration }} месяцев)</div>
                     </div>
                     <div class="profile-widget-item">
-                        <div class="profile-widget-item-label">Станция</div>
-                        <div class="profile-widget-item-value">{{ employer.plant }}</div>
+                        <div class="profile-widget-item-value">Станция</div>
+                        <div class="profile-widget-item-label">{{ employer.plant }}</div>
                     </div>
                 </div>
             </div>
             <div class="profile-widget-description pb-0">
                 <div class="profile-widget-name">{{ employer.name }}
                     <div class="text-muted d-inline font-weight-normal">
-                        <div class="slash"></div>
-                        {{ employer.position }}
+                        <!-- <div class="slash"></div> -->
+                        <!-- {{ employer.position }} -->
                     </div>
                 </div>
-                <p>{{ employer.description }}</p>
+                <!-- <p>{{ employer.description }}</p> -->
             </div>
         </div>
 
         <div class="card mt-4">
             <div class="card-header">
-                <h4>Комиссия: {{ employer.commission }}</h4>
+                {% if employer.exam %}
+                <h4>Комиссия: {{ employer.exam }}</h4>
+                {% else %}
+                <h4>Не состоит в комиссии</h4>
+                {% endif %}
             </div>
             <div class="card-body pb-0">
                 {% for commission in commissions %}
                 {% if employer.commission == commission %}
                 <div class="row">
-                    <div class="col-6 col-sm-3 col-lg-3 mb-4 mb-md-0">
+                    <div class="col-6 col-sm-3 col-lg-3 mb-4 mb-md-0 text-center">
+                        <a href="{% url 'commission_detail' commission.pk %}" class="btn">
                         <div class="avatar-item">
-                            <img alt="image" src="{{ commission.image.url }}" class="img-fluid" data-toggle="tooltip">
-                            <a href="{% url 'commission_detail' commission.pk %}" class="btn">
-                                <i class="far fa-user"></i>
-                            </a>
+                            <img alt="image" src="{{ commission.image.url }}" class="img-fluid" data-toggle="tooltip" style="width: 70%; max-width: 100px;">
+                            <div class="font-weight-bold text-dark" style="font-size: 0.9rem; word-wrap: break-word;">{{ employer.name }}</div>
                         </div>
-                    </div>
+                    </a>
+                    </div>  
                 </div>
                 {% endif %}
                 {% endfor %}
             </div>
         </div>
     </div>
-
-
-    <div class="col-6">
+    <div class="col-6 mt-4">
         <div class="card">
             <div class="card-header">
                 <h4>Результаты экзаменов</h4>
@@ -66,73 +68,63 @@
                 <div class="table-responsive">
                     <table class="table table-striped" id="sortable-table">
                         <tbody>
-                        {% for exam in exams %}
-                        {% for score in scores %}
-                        {% if score.exam == exam %}
-
-                        <tr>
-                            {% if exam.type == 'Мед' %}
-                            <td><i class="fa fa-plus-square" aria-hidden="true"></i> {{ exam.type }}</td>
-                            {% elif exam.type == 'Пожарка' %}
-                            <td><i class="fa fa-fire" aria-hidden="true"></i> {{ exam.type }}</td>
-                            {% else %}
-                            <td><i class="fa fa-bolt" aria-hidden="true"></i> {{ exam.type }}</td>
-                            {% endif %}
-                            <td>{{ exam.date }}</td>
-                            {% if score.score >= 3 and score.score < 6 %}
-                            <td>
-                                <div class="badge badge-success">{{ score.score }}</div>
-                            </td>
-                            {% elif score.score > 0 and score.score <= 2 %}
-                            <td>
-                                <div class="badge badge-danger">{{ score.score }}</div>
-                            </td>
-                            {% endif %}
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        {% endfor %}
-
+                            {% for score in scores %}   
+                            <tr>
+                                {% if score.exam == 'Мед' %}
+                                <td><i class="fa fa-plus-square" aria-hidden="true"></i> {{ score.exam }}</td>
+                                {% elif score.exam == 'Пожарка' %}
+                                <td><i class="fa fa-fire" aria-hidden="true"></i> {{ score.exam }}</td>
+                                {% else %}
+                                <td><i class="fa fa-bolt" aria-hidden="true"></i> {{ score.exam }}</td>
+                                {% endif %}
+                                <td>{{ score.exam.start }}</td>
+                                {% if score.score >= 3 and score.score < 6 %} <td>
+                                    <div class="badge badge-success">{{ score.score }}</div>
+                                    </td>
+                                    {% elif score.score > 0 and score.score <= 2 %} <td>
+                                        <div class="badge badge-danger">{{ score.score }}</div>
+                                        </td>
+                                        {% endif %}
+                            </tr>
+                            {% endfor %}
                         </tbody>
                         <thead>
-                        <tr>
-                            <th>Экзамен</th>
-                            <th>Дата</th>
-                            <th>Результат</th>
-                        </tr>
+                            <tr>
+                                <th>Экзамен</th>
+                                <th>Дата</th>
+                                <th>Результат</th>
+                            </tr>
                         </thead>
                     </table>
-                    <div class="card">
-
-                            <div class="buttons">
-                                <ul class="pagination justify-content-center">
-                                    {% if exams.has_previous %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ exams.previous_page_number }}"
-                                           aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% for page_number in exams.paginator.page_range %}
-                                    {% if page_number == exams.number %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">
+                    <div class="">
+                        <div class="buttons">
+                            <ul class="pagination justify-content-center">
+                                {% if exams.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ exams.previous_page_number }}"
+                                        aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% for page_number in exams.paginator.page_range %}
+                                {% if page_number == exams.number %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_number }}">
                                         {{ page_number }}</a></li>
-                                    {% else %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">
+                                {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_number }}">
                                         {{ page_number }}</a></li>
-                                    {% endif %}
-                                    {% endfor %}
-                                    {% if exams.has_next %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ exams.next_page_number }}"
-                                           aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                </ul>
-                            </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% if exams.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ exams.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
 
                     </div>
                 </div>

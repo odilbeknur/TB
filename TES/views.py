@@ -1,24 +1,29 @@
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Plants, Commission, Employer, Exam, User, Score, Files
+from .models import *
 from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm, ScoreForm, RegistrationForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
 from django.core.paginator import Paginator
 
+from django.http import JsonResponse 
+from django.utils import timezone
 
 def index(request):
+    all_events = Exam.objects.all()
     total_employees = Employer.objects.count()
     passed_exams = Score.objects.filter(status='pass').count()
     in_progress_exams = Score.objects.filter(status=None).count()
     failed_exams = Score.objects.filter(status='fail').count()
-    print(passed_exams)
     context = {
         'total_employees': total_employees,
         'passed_exams': passed_exams,
         'in_progress_exams': in_progress_exams,
-        'failed_exams': failed_exams
+        'failed_exams': failed_exams,
+        "events":all_events
     }
     return render(request, 'TES/index.html', context)
+
 
 
 def plants_view(request):
@@ -222,10 +227,14 @@ def plants_detail(request, pk):
 
 def commission_detail(request, pk):
     commission = get_object_or_404(Commission, id=pk)
-    employers = Employer.objects.filter(commission=commission)
+    exam = get_object_or_404(Exam, id=pk)
+
+    employers = Employer.objects.filter(exam=exam)
     files = Files.objects.filter(commission=commission)
+    print(employers)
     context = {
         'employers': employers,
+        'exam': exam,
         'commission': commission,
         'files': files
     }
@@ -236,39 +245,102 @@ def employer_detail(request, pk):
     employer = get_object_or_404(Employer, id=pk)
     commissions = Commission.objects.filter(employer=employer)
     exams = Exam.objects.filter(employer=employer)
-    scores = Score.objects.all()
+    scores = Score.objects.filter(name=employer)
 
     paginator = Paginator(exams, 5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-
+    print(page_obj)
     context = {
         'commissions': commissions,
         'employer': employer,
         'exams': page_obj,
         'scores': scores
     }
-    print(commissions)
     return render(request, 'TES/employer_detail.html', context)
 
 
 def exam_detail(request, pk):
     exam = get_object_or_404(Exam, id=pk)
-    employers = Employer.objects.filter(exam_id=exam.id)
-    scores = Score.objects.all()
+    employers = Employer.objects.all()
+    scores = Score.objects.filter(exam_id=exam.id)
 
     paginator = Paginator(employers, 8)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-
+    print(exam)
     context = {
         'exam': exam,
         'employers': page_obj,
         'scores': scores
     }
+
     return render(request, 'TES/exam_detail.html', context)
 
 
-# индекс
-# ком детаил
-# фильтр
+
+def all_events(request):
+    all_events = Exam.objects.all()
+    out = []
+    now = timezone.now()  # Get current time using Django's timezone utility
+    for event in all_events:
+        status = "outdated" if event.end < now else "upcoming"  # Example status logic
+        plant_name = event.plant.name if event.plant else "Unknown Plant"
+        out.append({
+            'title': event.type + " экзамен в " + plant_name,  # Include type and plant name in title
+            'start': event.start.strftime("%Y-%m-%dT%H:%M:%S"),
+            'end': event.end.strftime("%Y-%m-%dT%H:%M:%S"),
+            'status': status,
+        })
+        
+    return JsonResponse(out, safe=False)
+
+ 
+def add_event(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    event = Exam(name=str(title), start=start, end=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+    event = Exam.objects.get(id=id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def remove(request):
+    id = request.GET.get("id", None)
+    event = Exam.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
+
+def passed(request):
+    passed_exams = Score.objects.filter(status='pass')
+    context = {
+        'passed_exams': passed_exams
+    }
+    print(passed_exams)
+    return render(request, 'dashpass/passed.html', context)
+def process(request):
+    process_exams = Score.objects.filter(status=None)
+    context = {
+        'process_exams': process_exams
+    }
+    return render(request, 'dashpass/process.html', context)
+def failed(request):
+    failed_exams = Score.objects.filter(status='fail')
+    context = {
+        'failed_exams': failed_exams
+    }
+    return render(request, 'dashpass/failed.html', context)

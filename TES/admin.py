@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Plants, Employer, Commission, Exam, UserRole, Files, CommissionType, Score
+from .models import *
 
 
 # Register your models here.
@@ -17,17 +17,17 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Employer)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'level', 'position', 'image', 'pos_duration', 'enter', 'plant', 'description', 'commission']
+    list_display = ['id', 'name', 'image','level', 'department', 'position', 'pos_duration', 'enter', 'plant', 'exam', 'commission']
 
 
 @admin.register(Commission)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user_name', 'lvl', 'group', 'description']
+    list_display = ['id', 'name', 'leader','image', 'files','lvl', 'group', 'description']
 
 
 @admin.register(Exam)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'type', 'date', 'plant']
+    list_display = ['id', 'type', 'start', 'end', 'plant']
 
 
 @admin.register(UserRole)
@@ -48,3 +48,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Score)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'score', 'exam', 'status']
+
+# @admin.register(Events)
+# class CategoryAdmin(admin.ModelAdmin):
+#     list_display = ['id', 'name', 'start', 'end']

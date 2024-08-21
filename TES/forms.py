@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 class EmployerForm(forms.ModelForm):
     class Meta:
         model = Employer
-        fields = ['name', 'level', 'position', 'pos_duration', 'enter', 'image', 'plant', 'commission', 'description']
+        fields = ['name', 'level', 'department','position', 'pos_duration', 'enter', 'plant', 'commission', 'description']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control'
@@ -15,10 +15,10 @@ class EmployerForm(forms.ModelForm):
             'level': forms.NumberInput(attrs={
                 'class': 'form-control'
             }),
-            'position': forms.TextInput(attrs={
+            'department': forms.Select(attrs={
                 'class': 'form-control'
             }),
-            'image': forms.ClearableFileInput(attrs={
+            'position': forms.Select(attrs={
                 'class': 'form-control'
             }),
             'commission': forms.Select(attrs={
@@ -42,9 +42,12 @@ class EmployerForm(forms.ModelForm):
 class CommissionForm(forms.ModelForm):
     class Meta:
         model = Commission
-        fields = ['user_name', 'lvl', 'group', 'commission_type', 'image', 'description']
+        fields = ['name','leader', 'lvl', 'group', 'commission_type', 'image', 'description']
         widgets = {
-            'user_name': forms.TextInput(attrs={
+            'name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'leader': forms.TextInput(attrs={
                 'class': 'form-control'
             }),
             'image': forms.ClearableFileInput(attrs={
@@ -68,13 +71,16 @@ class CommissionForm(forms.ModelForm):
 class ExamForm(forms.ModelForm):
     class Meta:
         model = Exam
-        fields = ['type', 'date', 'plant']
+        fields = ['type','start','end','plant']
         widgets = {
             'type': forms.TextInput(attrs={
                 'class': 'form-control'
             }),
-            'date': forms.DateInput(attrs={
-                'class': 'form-control'
+            'start': forms.DateInput(attrs={
+                'class': 'form-control', 'type': 'date'
+            }),
+            'end': forms.DateInput(attrs={
+                'class': 'form-control', 'type': 'date'
             }),
             'plant': forms.Select(attrs={
                 'class': 'form-control'

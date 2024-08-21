@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="row shadow">
+<br>
+<div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
@@ -22,10 +23,10 @@
                 <div class="table-responsive">
                     <table class="table table-striped" id="sortable-table">
                         <thead>
-                        <tr>
+                            <tr>
+                            <th>Группа</th>
                             <th>Название</th>
                             <th>Уровень</th>
-                            <th>Группа</th>
                             <th>Тип комиссии</th>
                             <th>Подробнее</th>
                         </tr>
@@ -33,9 +34,9 @@
                         <tbody>
                         {% for commission in commissions %}
                         <tr>
-                            <td>{{ commission.user_name }}</td>
-                            <td>{{ commission.lvl }}</td>
                             <td>{{ commission.group }}</td>
+                            <td>{{ commission.name }}</td>
+                            <td>{{ commission.lvl }}</td>
                             <td>{{ commission.commission_type }}</td>
                             <td><a href="{% url 'commission_detail' commission.pk  %}" class="btn btn-primary">Подробнее</a></td>
                         </tr>
@@ -44,7 +45,7 @@
                     </table>
                 </div>
             </div>
-            <div class="card">
+            <div class="">
                     <div class="card-body">
                         <div class="buttons">
                                 <ul class="pagination justify-content-center">

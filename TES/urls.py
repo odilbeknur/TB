@@ -3,6 +3,17 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    path('passed/', passed, name='passed'),
+    path('process/', process, name='process'),
+    path('failed/', failed, name='failed'),
+
+
+
+    path('all_events/', all_events, name='all_events'), 
+    path('add_event/', add_event, name='add_event'), 
+    path('update/', update, name='update'),
+    path('remove/', remove, name='remove'),
+
     path('plants/', plants_view, name='plants'),
     path('commission/', commission_view, name='commission'),
     path('employer/', employer_view, name='employer'),
