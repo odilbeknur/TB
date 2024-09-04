@@ -9,6 +9,11 @@ STATUSES = (
         (u'process', u'В процессе'),
     )
 
+EXAMS = (
+        (u'tb', u'Экзамен по ТБ'),
+        (u'med', u'Экзамен по Медицине'),
+        (u'fire', u'Экзамен по Пожарной безопасности'),
+    )
 POSITIONS = (
     (u'Начальник отдела', u'Начальник отдела'),
     (u'Главный специалист', u'Главный специалист'),
@@ -64,7 +69,8 @@ class Plants(models.Model):
 
 
 class Exam(models.Model):
-    type = models.CharField(max_length=255, verbose_name='Тип экзамена')
+    name = models.CharField(max_length=255, verbose_name='Тип экзамена')
+    type = models.CharField(choices=EXAMS, max_length=255, blank=True, null=True)
     plant = models.ForeignKey(Plants, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Станция')
     start = models.DateTimeField(null=True,blank=True)
     end = models.DateTimeField(null=True,blank=True)
