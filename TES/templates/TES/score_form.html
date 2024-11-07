@@ -1,16 +1,78 @@
 {% extends 'base.html' %}
 
+{% load custom_filters %}
+
 {% block main %}
 <div class="card shadow">
-    <div class="card-header">
-        <h4>Добавить Оценку</h4>
-    </div>
     <div class="card-body">
-        <form action="" method="post" enctype="multipart/form-data">
+        <h3> Оценки за {{ exam.name }}</h3>
+
+        <!-- Блок для отображения сообщений -->
+        {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}    
+        </div>
+        {% endif %}
+
+        <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-success" type="submit">Подтвердить</button>
+            {{ formset.management_form }}
+
+            <!-- Если есть ошибки, выводим их здесь -->
+            {% if errors %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for error in errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО</th>
+                        <th>Оценка</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                    <tr>
+                        <!-- Скрытое поле для id -->
+                        {{ form.id }}
+                        <td>{{ form.instance.name.id }}</td>
+                        <td>{{ form.instance.name }}</td>
+                        <td>{{ form.score|add_class:"form-control" }}</td>
+                        <td>{{ form.status|add_class:"form-control" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <button type="submit" class="btn btn-primary">Сохранить оценки</button>
         </form>
     </div>
 </div>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
 {% endblock main %}

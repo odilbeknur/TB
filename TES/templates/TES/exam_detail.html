@@ -16,6 +16,10 @@
                                 <th>Экзамен</th>
                                 <th>Дата</th>
                                 <th>Результат</th>
+                                <th>Статус</th>
+                                <th>Коментарий</th>
+
+
                             </tr>
                             </thead>
                         <tbody>
@@ -24,19 +28,29 @@
                         <tr>
                             <td><img alt="image" src="https://avatars.mds.yandex.net/i?id=c96308cd89772428e8cee177ad918db56fea3fd4-10471469-images-thumbs&ref=rim&n=33&w=200&h=200" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian"></i>
                                 {{ score.name }}</td>
-                            {% if exam.type == 'Мед' %}
-                            <td><i class="fa fa-plus-square" aria-hidden="true"></i> {{ exam.type }}</td>
-                            {% elif exam.type == 'Пожарка' %}
-                            <td><i class="fa fa-fire" aria-hidden="true"></i> {{ exam.type }}</td>
-                            {% else %}
-                            <td><i class="fa fa-bolt" aria-hidden="true"></i> {{ exam.type }}</td>
+                            {% if exam.types == 'med' %}
+                            <td><i class="fa fa-plus-square" aria-hidden="true"></i> Медицинский контроль</td>
+                            {% elif exam.types == 'fire' %}
+                            <td><i class="fa fa-fire" aria-hidden="true"></i> Пожарная безопасность</td>
+                            {% elif exam.types == 'secure' %}
+                            <td><i class="fa fa-bolt" aria-hidden="true"></i> Техника безопасности</td>
                             {% endif %}
                             <td>{{ exam.start }}</td>
                             {% if score.score >= 3 and score.score < 6 %}
                             <td><div class="badge badge-success">{{ score.score }}</div></td>
                             {% elif score.score > 0 and score.score <= 2 %}
                             <td><div class="badge badge-danger">{{ score.score }}</div></td>
+                            {% else %}
+                            <td><div class="badge badge-warrning">{{ score.score }}</div></td>
                             {% endif %}
+                            {% if score.status == 'pass' %}
+                            <td><div class="badge badge-success">Прошел</div></td>
+                            {% elif score.status == 'fail' %}
+                            <td><div class="badge badge-danger">Не прошел</div></td>
+                            {% else %}
+                            <td><div class="badge badge-warning">В процессе</div></td>
+                            {% endif %}
+                            <td></td>
                         </tr>
                         {% endif %}
                         {% endfor %}

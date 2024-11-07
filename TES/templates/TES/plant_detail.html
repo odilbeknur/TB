@@ -67,7 +67,7 @@
                                     {% endif %}
                                     {% for page_number in employers.paginator.page_range %}
                                     {% if page_number == employers.number %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                    <li class="page-item active"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
                                     {% else %}
                                     <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
                                     {% endif %}

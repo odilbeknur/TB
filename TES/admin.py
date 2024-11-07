@@ -15,19 +15,19 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'description']
 
 
-@admin.register(Employer)
+@admin.register(Employee)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'image','level', 'department', 'position', 'pos_duration', 'enter', 'plant', 'exam', 'commission']
+    list_display = ['id','employee_num', 'name', 'image','level', 'department', 'position', 'enter', 'pos_duration','gender', 'birth_date', 'region','plant']
 
 
 @admin.register(Commission)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'leader','image', 'files','lvl', 'group', 'description']
+    list_display = ['id', 'name', 'leader','image', 'files','lvl', 'group']
 
 
 @admin.register(Exam)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'type', 'start', 'end', 'plant']
+    list_display = ['id', 'types', 'start', 'end', 'plant', 'commission']
 
 
 @admin.register(UserRole)
