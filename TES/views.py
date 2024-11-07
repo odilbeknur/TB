@@ -1,6 +1,11 @@
 from django.contrib.auth import logout, login
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+
+from django import forms
+from django.forms import modelformset_factory
+
+
 from .forms import EmployerForm, CommissionForm, ExamForm, LoginForm, ScoreForm, RegistrationForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
@@ -11,7 +16,7 @@ from django.utils import timezone
 
 def index(request):
     all_events = Exam.objects.all()
-    total_employees = Employer.objects.count()
+    total_employees = Employee.objects.count()
     passed_exams = Score.objects.filter(status='pass').count()
     in_progress_exams = Score.objects.filter(status=None).count()
     failed_exams = Score.objects.filter(status='fail').count()
@@ -28,10 +33,10 @@ def index(request):
 
 def plants_view(request):
     plants = Plants.objects.all()
-    employers = Employer.objects.all()
+    employers = Employee.objects.all()
     plant_id = request.GET.get('plant')
     if plant_id:
-        employers = Employer.objects.filter(plant=Plants.objects.get(pk=plant_id))
+        employers = Employee.objects.filter(plant=Plants.objects.get(pk=plant_id))
         print('Success')
     else:
         plant_id = 0
@@ -57,12 +62,11 @@ def commission_view(request):
 
 
 def employer_view(request):
-    employers = Employer.objects.all()
+    employers = Employee.objects.all()
 
-    paginator = Paginator(employers, 8)
+    paginator = Paginator(employers, 12)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-
     context = {
         'employers': page_obj
     }
@@ -98,7 +102,7 @@ def exam_view(request):
 
     context = {
         'exams': page_obj,
-        'employers': Employer.objects.all(),
+        'employers': Employee.objects.all(),
         'filter_name': filter_name
     }
     return render(request, 'TES/exam.html', context)
@@ -193,29 +197,11 @@ def login_form(request):
     return render(request, 'TES/auth.html', context)
 
 
-class CommissionDetail(DetailView):
-    model = Commission
-    context_object_name = 'commission'
-    template_name = 'TES/commission_detail.html'
-
-
-class EmployerDetail(DetailView):
-    model = Employer
-    context_object_name = 'employer'
-    template_name = 'TES/employer_detail.html'
-
-
-class PlantDetail(DetailView):
-    model = Plants
-    context_object_name = 'plant'
-    template_name = 'TES/plant_detail.html'
-
-
 def plants_detail(request, pk):
     plant = get_object_or_404(Plants, id=pk)
-    employers = Employer.objects.filter(plant_id=plant.id)
+    employers = Employee.objects.filter(plant_id=plant.id)
 
-    paginator = Paginator(employers, 8)
+    paginator = Paginator(employers, 12)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
@@ -227,14 +213,9 @@ def plants_detail(request, pk):
 
 def commission_detail(request, pk):
     commission = get_object_or_404(Commission, id=pk)
-    exam = get_object_or_404(Exam, id=pk)
 
-    employers = Employer.objects.filter(exam=exam)
     files = Files.objects.filter(commission=commission)
-    print(employers)
     context = {
-        'employers': employers,
-        'exam': exam,
         'commission': commission,
         'files': files
     }
@@ -242,27 +223,28 @@ def commission_detail(request, pk):
 
 
 def employer_detail(request, pk):
-    employer = get_object_or_404(Employer, id=pk)
-    commissions = Commission.objects.filter(employer=employer)
-    exams = Exam.objects.filter(employer=employer)
+    employer = get_object_or_404(Employee, id=pk)
+    commissions = Commission.objects.filter(members=employer)  # This could be multiple commissions
+    exams = Exam.objects.filter(commission__in=commissions)  # Use __in to filter by a list of commissions
     scores = Score.objects.filter(name=employer)
-
+    print(commission)
     paginator = Paginator(exams, 5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    print(page_obj)
     context = {
         'commissions': commissions,
         'employer': employer,
         'exams': page_obj,
         'scores': scores
     }
+    
     return render(request, 'TES/employer_detail.html', context)
+
 
 
 def exam_detail(request, pk):
     exam = get_object_or_404(Exam, id=pk)
-    employers = Employer.objects.all()
+    employers = Employee.objects.all()
     scores = Score.objects.filter(exam_id=exam.id)
 
     paginator = Paginator(employers, 8)
@@ -287,7 +269,7 @@ def all_events(request):
         status = "outdated" if event.end < now else "upcoming"  # Example status logic
         plant_name = event.plant.name if event.plant else "Unknown Plant"
         out.append({
-            'title': event.type + " экзамен в " + plant_name,  # Include type and plant name in title
+            'title': event.types+ " экзамен в " + plant_name,  # Include type and plant name in title
             'start': event.start.strftime("%Y-%m-%dT%H:%M:%S"),
             'end': event.end.strftime("%Y-%m-%dT%H:%M:%S"),
             'status': status,
@@ -344,3 +326,33 @@ def failed(request):
         'failed_exams': failed_exams
     }
     return render(request, 'dashpass/failed.html', context)
+
+
+class ExamSelectionForm(forms.Form):
+    exam = forms.ModelChoiceField(queryset=Exam.objects.all(), label='Choose Exam')
+
+def update_scores(request, exam_id):
+    exam = get_object_or_404(Exam, id=exam_id)
+    employers = Employee.objects.all()
+    existing_scores = Score.objects.filter(exam=exam)
+
+    # Создаем пустые записи для сотрудников, у которых нет оценок
+    for employer in employers:
+        if not existing_scores.filter(name=employer).exists():
+            Score.objects.create(exam=exam, name=employer, score=0, status="")
+
+    # Исключаем поле id из формы
+    ScoreFormSet = modelformset_factory(Score, fields=('score', 'status'), extra=0)
+
+    if request.method == 'POST':
+        formset = ScoreFormSet(request.POST, queryset=Score.objects.filter(exam=exam))
+
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, "Запись успешно сохранена!")  # Добавляем сообщение об успехе
+        else:
+            return render(request, 'TES/score_form.html', {'formset': formset, 'exam': exam, 'errors': formset.errors})
+    else:
+        formset = ScoreFormSet(queryset=Score.objects.filter(exam=exam))
+
+    return render(request, 'TES/score_form.html', {'formset': formset, 'exam': exam})

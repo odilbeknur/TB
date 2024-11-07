@@ -13,7 +13,6 @@ urlpatterns = [
     path('add_event/', add_event, name='add_event'), 
     path('update/', update, name='update'),
     path('remove/', remove, name='remove'),
-
     path('plants/', plants_view, name='plants'),
     path('commission/', commission_view, name='commission'),
     path('employer/', employer_view, name='employer'),
@@ -28,5 +27,7 @@ urlpatterns = [
     path('emp_detail<int:pk>/', employer_detail, name='employer_detail'),
     path('plant_detail<int:pk>/', plants_detail, name='plant_detail'),
     path('exam/', exam_view, name='exam'),
-    path('exam_detail<int:pk>/', exam_detail, name='exam_detail')
+    path('exam_detail<int:pk>/', exam_detail, name='exam_detail'),
+    # path('score-entry/', score_entry_view, name='score_entry')
+    path('exam/<int:exam_id>/scores/', update_scores, name='update_scores'),
 ]

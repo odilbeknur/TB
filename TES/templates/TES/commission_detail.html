@@ -38,17 +38,26 @@
             </div>
             <div class="card-body pb-0">
                 <div class="row">
-                    {% for employer in employers %} 
-                    {% if employer.exam == exam %}
+
+                    {% for member in commission.members.all %}
                     <div class="col-6 col-sm-3 col-lg-3 mb-4 mb-md-0 text-center">
-                        <a href="{% url 'employer_detail' employer.pk %}" class="d-block mt-2" style="text-decoration:none;">
+                        <a href="{% url 'employer_detail' member.pk %}" class="d-block mt-2"
+                            style="text-decoration:none;">
                             <div class="avatar-item">
-                                <img alt="image" src="{{ employer.image.url }}" class="img-fluid rounded-circle mb-2" style="width: 70%; max-width: 100px;">
-                                <div class="font-weight-bold text-dark" style="font-size: 0.9rem; word-wrap: break-word;">{{ employer.name }}</div>
+                                {% if member.image %}
+                                <img alt="image" src="{{ member.image.url }}" class="img-fluid rounded-circle mb-2"
+                                    style="width: 70%; max-width: 100px;">
+                                {% else %}
+                                <img alt="image" src="/media/images/avatar-1300331_1280.png" class="img-fluid rounded-circle mb-2"
+                                    style="width: 70%; max-width: 100px;">
+                                {% endif %}
+                                <div class="font-weight-bold text-dark"
+                                    style="font-size: 0.9rem; word-wrap: break-word;">{{ member.name }}</div>
                             </div>
                         </a>
                     </div>
-                    {% endif %}
+                    {% empty %}
+                    <li>Члены комиссии не добавлены.</li>
                     {% endfor %}
                 </div>
             </div>
@@ -57,11 +66,11 @@
     </div>
     <div class="col-12 col-sm-12 col-lg-6">
         <div class="card-body">
-            {% for file in files %} 
-            <img alt="image" src="/media/{{ exam.file }}" class="" style="width:80%">
+            {% for file in files %}
+            <!-- <img alt="image" src="/media/{{ exam.file }}" class="" style="width:80%"> -->
             {% endfor %}
         </div>
     </div>
 </div>
 
-{% endblock main %}
+{% endblock main %}`
